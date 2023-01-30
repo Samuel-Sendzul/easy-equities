@@ -1,8 +1,9 @@
 var constants = require("./constants");
 var https = require("https");
+var axiosConfig = require('./axiosConfig')
 
 module.exports = {
-  async login(httpClient, username, password) {
+  async login(username, password) {
     const options = {
       headers: {
         Accept:
@@ -17,7 +18,7 @@ module.exports = {
       maxRedirects: 0,
       validateStatus: null,
     };
-    response = await httpClient(options);
+    response = await axiosConfig.httpClient(options);
 
     if (response.status != 302) {
       throw "Login failed";

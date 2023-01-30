@@ -1,8 +1,8 @@
 var constants = require('./constants');
-var auth = require("./auth")
+var axiosConfig = require('./axiosConfig')
 
 module.exports = {
-  async _getAccountOverviewPage(httpClient, cookies) {
+  async _getAccountOverviewPage(cookies) {
     const options = {
       headers: {
         Accept:
@@ -14,8 +14,7 @@ module.exports = {
       method: "GET",
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_ACCOUNT_OVERVIEW_PATH}`
     };
-    response = await httpClient(options);
-
-    console.log(response)
+    response = await axiosConfig.httpClient(options);
+    return response.data
   }
 }
