@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/Samuel-Sendzul/easy-equities/issues"
   },
-  "homepage": "https://github.com/Samuel-Sendzul/easy-equities#readme"
+  "homepage": "https://github.com/Samuel-Sendzul/easy-equities#readme",
+  "dependencies": {
+    "axios": "^1.2.6"
+  }
 }

@@ -1,0 +1,10 @@
+export const EASY_EQUITIES_BASE_PLATFORM_URL = "https://platform.easyequities.io"
+
+export const PLATFORM_SIGN_IN_PATH = "/Account/SignIn"
+export const PLATFORM_ACCOUNT_OVERVIEW_PATH = "/AccountOverview"
+export const PLATFORM_CAN_USE_ACCOUNT_PATH = "/Menu/CanUseSelectedAccount"
+export const PLATFORM_UPDATE_CURRENCY_PATH = "/Menu/UpdateCurrency"
+export const PLATFORM_ACCOUNT_VALUATIONS_PATH = "/AccountOverview/GetTrustAccountValuations"
+export const PLATFORM_HOLDINGS_PATH = "/AccountOverview/GetHoldingsView?stockViewCategoryId=12"
+export const PLATFORM_TRANSACTIONS_PATH = "/TransactionHistory/GetTransactions"
+export const PLATFORM_GET_CHART_DATA_PATH = "/Equity/GetChartDataByContractCode"
