@@ -31,11 +31,10 @@ module.exports = {
 
     const accountDivs = $("div[id^='trust-account-types']")
 
-    accountDivs.forEach((el) => {
-        let tradingCurrency = el.parent.attribs['data-tradingcurrencyid']
-      } 
-    )
 
+    for (let i = 0; i < accountDivs.length; i++) {
+      let tradingCurrency = accountDivs[i].parent.attribs['data-tradingcurrencyid']
+    }
 
     console.log("Finished")
   }
