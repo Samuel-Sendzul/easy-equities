@@ -1,1 +1,1 @@
-# easy-equities
+# Easy Equities NPM Client

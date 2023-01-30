@@ -1,0 +1,24 @@
+{
+  "name": "easy-equities",
+  "version": "1.0.0",
+  "description": "Javascript client for Easy Equities.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samuel-Sendzul/easy-equities.git"
+  },
+  "keywords": [
+    "easy",
+    "equities",
+    "investing"
+  ],
+  "author": "Samuel Sendzul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Samuel-Sendzul/easy-equities/issues"
+  },
+  "homepage": "https://github.com/Samuel-Sendzul/easy-equities#readme"
+}
