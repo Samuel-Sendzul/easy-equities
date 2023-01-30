@@ -7,4 +7,4 @@ const password = process.env.password;
 
 auth
   .login(username, password)
-  .then((cookies) => accounts._getAccountOverviewPage(cookies));
+  .then((cookies) => accounts.list(cookies));

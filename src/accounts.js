@@ -1,5 +1,6 @@
 var constants = require('./constants');
 var axiosConfig = require('./axiosConfig')
+var cheerio = require('cheerio')
 
 module.exports = {
   async _getAccountOverviewPage(cookies) {
@@ -15,6 +16,28 @@ module.exports = {
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_ACCOUNT_OVERVIEW_PATH}`
     };
     response = await axiosConfig.httpClient(options);
+
+    if (response.status != 200) {
+      throw "Account overview page should return 200 status code";
+    }
+
     return response.data
+  },
+
+  async list(cookies) {
+    const accountsPage = await this._getAccountOverviewPage(cookies)
+
+    const $ = cheerio.load(accountsPage)
+
+    const accountDivs = $("div[id^='trust-account-types']")
+
+    accountDivs.forEach((el) => {
+        let tradingCurrency = el.parent.attribs['data-tradingcurrencyid']
+      } 
+    )
+
+
+    console.log("Finished")
   }
+
 }
