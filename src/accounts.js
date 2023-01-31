@@ -1,10 +1,17 @@
 var constants = require("./constants");
 var axiosConfig = require("./axiosConfig");
-var cheerio = require("cheerio");
 var auth = require("./auth");
 
+var cheerio = require("cheerio");
+
 module.exports = {
+  // Currently selected account ID.
   currentAccount: undefined,
+
+  /**
+   * Fetch the Accounts Overview page (returned as raw HTML).
+   * @returns {string} Raw HTML Accounts Overview page.
+   */
   async _getAccountOverviewPage() {
     const options = {
       headers: {
@@ -55,7 +62,7 @@ module.exports = {
 
   /**
    * Switch the selected account if the supplied account ID is different from the currently selected account.
-   * @param {string} accountId 
+   * @param {string} accountId
    */
   async _switchAccounts(accountId) {
     if (accountId !== this.currentAccount) {
@@ -83,7 +90,7 @@ module.exports = {
 
   /**
    * Fetch all aggregate valuation data relating to an account.
-   * @param {string} accountId 
+   * @param {string} accountId
    * @returns Aggregate valuation information for an account.
    */
   async valuations(accountId) {
@@ -101,8 +108,28 @@ module.exports = {
     };
     response = await axiosConfig.httpClient(options);
 
-    const valuations = JSON.parse(response.data)
+    const valuations = JSON.parse(response.data);
 
-    return valuations
+    return valuations;
+  },
+
+  async transactions(accountId) {
+    await this._switchAccounts(accountId);
+    const options = {
+      headers: {
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Connection-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded",
+        cookie: auth.cookieJar.myCookies,
+      },
+      method: "GET",
+      url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_TRANSACTIONS_PATH}`,
+    };
+    response = await axiosConfig.httpClient(options);
+
+    const transactions = response.data;
+
+    return transactions;
   },
 };
