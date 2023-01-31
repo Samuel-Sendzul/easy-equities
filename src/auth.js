@@ -1,8 +1,11 @@
 var constants = require("./constants");
 var https = require("https");
-var axiosConfig = require('./axiosConfig')
+var axiosConfig = require("./axiosConfig");
 
 module.exports = {
+  cookieJar: {
+    myCookies: undefined,
+  },
   async login(username, password) {
     const options = {
       headers: {
@@ -22,8 +25,12 @@ module.exports = {
 
     if (response.status != 302) {
       throw "Login failed";
+    } else {
+      console.log("Logged into Easy Equities successfully.");
     }
 
-    return response.headers['set-cookie']
+    this.cookieJar.myCookies = response.headers["set-cookie"];
+
+    return true;
   },
 };
