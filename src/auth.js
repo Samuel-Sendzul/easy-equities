@@ -10,8 +10,8 @@ module.exports = {
   /**
    * Login to EasyEquities. When the correct username and password is supplied. EasyEquities returns a token in the response header. This can be used for further
    * requests in the session.
-   * @param {string} username
-   * @param {string} password
+   * @param {string} username Username used to log into an account.
+   * @param {string} password Password used to log into an account.
    * @returns
    */
   async login(username, password) {

@@ -1,7 +1,7 @@
 {
   "name": "easy-equities",
   "version": "1.0.0",
-  "description": "Javascript client for Easy Equities.",
+  "description": "NodeJS client for programmatically accessing an Easy Equities account.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,7 +16,7 @@
     "investing"
   ],
   "author": "Samuel Sendzul",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Samuel-Sendzul/easy-equities/issues"
   },
