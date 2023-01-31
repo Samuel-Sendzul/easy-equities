@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Samuel-Sendzul/easy-equities">
-    <img src="images/logo.webp" alt="Logo" width="80" height="80">
+    <img src="assets/logo.webp" alt="Logo" width="507" height="80">
   </a>
 
 <h3 align="center">Easy Equities JS</h3>
@@ -83,9 +83,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+[Easy Equities](https://www.easyequities.co.za/) is a low-cost investment platform available in South Africa. Many beginner and experienced investors use the platform because of its simple interface and low barrier to begin investing. However, Easy Equities has not made a documented API available to the public to access account data programatically. This Node.js implements a combination of web scraping and calls to the Easy Equities backend to enable developers to access their account data programatically.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -93,13 +91,9 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
+* [Node.js](https://nodejs.org/en/)
+* [Axios](https://axios-http.com/docs/intro)
+* [Cheerio](https://cheerio.js.org/)
 * [JQuery](https://jquery.com)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
