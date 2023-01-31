@@ -62,7 +62,7 @@ module.exports = {
 
   /**
    * Switch the selected account if the supplied account ID is different from the currently selected account.
-   * @param {string} accountId
+   * @param {string} accountId Account ID as retrieved from the .list() function.
    */
   async _switchAccounts(accountId) {
     if (accountId !== this.currentAccount) {
@@ -90,7 +90,7 @@ module.exports = {
 
   /**
    * Fetch all aggregate valuation data relating to an account.
-   * @param {string} accountId
+   * @param {string} accountId Account ID as retrieved from the .list() function.
    * @returns Aggregate valuation information for an account.
    */
   async valuations(accountId) {
@@ -114,7 +114,7 @@ module.exports = {
   },
   /**
    * Fetch all transactions for a given account ID.
-   * @param {string} accountId 
+   * @param {string} accountId Account ID as retrieved from the .list() function.
    * @returns List of transactions for the supplied account ID.
    */
   async transactions(accountId) {
@@ -136,7 +136,69 @@ module.exports = {
 
     return transactions;
   },
+  /**
+   * Get holdings information for an account (instruments, purchase values, current values, unit prices, and contract codes.)
+   * @param {string} accountId Account ID as retrieved from the .list() function.
+   * @returns List of holdings information hashmaps.
+   */
   async holdings(accountId) {
-    
-  }
+    await this._switchAccounts(accountId);
+    const options = {
+      headers: {
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Connection-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded",
+        cookie: auth.cookieJar.myCookies,
+      },
+      method: "GET",
+      url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_HOLDINGS_PATH}`,
+    };
+    response = await axiosConfig.httpClient(options);
+
+    const $ = cheerio.load(response.data, { ignoreWhitespace: true });
+    const instruments = $(
+      "div[class='display-none equity-image-as-text']"
+    ).find("div");
+    const purchaseValues = $("div[class='purchase-value-cell']").find("span");
+    const currentValues = $("div[class='current-value-cell']").find("span");
+    const currentPrices = $("div[class='current-price-cell']").find("span");
+    const contractCodes = $("img[class='instrument']");
+
+    let holdings = [];
+    for (let i = 0; i < instruments.length; i++) {
+      const contractCodeFirstIndex =
+        contractCodes[i].attribs.src.lastIndexOf("/") + 1;
+      const contractCodeLastIndex =
+        contractCodes[i].attribs.src.indexOf(".png");
+      const contractCode = contractCodes[i].attribs.src
+        .slice(contractCodeFirstIndex, contractCodeLastIndex)
+        .trim();
+
+      holdings.push({
+        instrument: instruments[i].children[0].data.trim(),
+        purchaseValue: parseFloat(
+          purchaseValues[i].children[0].data
+            .trim()
+            .replace("R", "")
+            .replace(" ", "")
+        ),
+        currentValue: parseFloat(
+          currentValues[i].children[0].data
+            .trim()
+            .replace("R", "")
+            .replace(" ", "")
+        ),
+        currentPrice: parseFloat(
+          currentPrices[i].children[0].data
+            .trim()
+            .replace("R", "")
+            .replace(" ", "")
+        ),
+        contractCode: contractCode,
+      });
+    }
+
+    return holdings;
+  },
 };

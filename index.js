@@ -4,4 +4,4 @@ var accounts = require("./src/accounts");
 const username = process.env.username;
 const password = process.env.password;
 
-auth.login(username, password).then(() => accounts.transactions("413392"));
+auth.login(username, password).then(() => accounts.holdings("413392"));
