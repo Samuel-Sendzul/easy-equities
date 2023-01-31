@@ -5,7 +5,7 @@ var axiosConfig = require("./axiosConfig");
 module.exports = {
   // Cookie storage
   cookieJar: {
-    myCookies: undefined,
+    EECookies: undefined,
   },
   /**
    * Login to EasyEquities. When the correct username and password is supplied. EasyEquities returns a token in the response header. This can be used for further
@@ -37,7 +37,7 @@ module.exports = {
       console.log("Logged into Easy Equities successfully.");
     }
 
-    this.cookieJar.myCookies = response.headers["set-cookie"];
+    this.cookieJar.EECookies = response.headers["set-cookie"];
 
     return true;
   },
