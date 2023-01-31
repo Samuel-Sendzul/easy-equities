@@ -136,4 +136,7 @@ module.exports = {
 
     return transactions;
   },
+  async holdings(accountId) {
+    
+  }
 };
