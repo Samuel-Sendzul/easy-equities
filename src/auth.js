@@ -3,9 +3,17 @@ var https = require("https");
 var axiosConfig = require("./axiosConfig");
 
 module.exports = {
+  // Cookie storage
   cookieJar: {
     myCookies: undefined,
   },
+  /**
+   * Login to EasyEquities. When the correct username and password is supplied. EasyEquities returns a token in the response header. This can be used for further
+   * requests in the session.
+   * @param {string} username
+   * @param {string} password
+   * @returns
+   */
   async login(username, password) {
     const options = {
       headers: {

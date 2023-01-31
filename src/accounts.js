@@ -112,7 +112,11 @@ module.exports = {
 
     return valuations;
   },
-
+  /**
+   * Fetch all transactions for a given account ID.
+   * @param {string} accountId 
+   * @returns List of transactions for the supplied account ID.
+   */
   async transactions(accountId) {
     await this._switchAccounts(accountId);
     const options = {
