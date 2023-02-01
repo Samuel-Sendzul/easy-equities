@@ -65,6 +65,10 @@ module.exports = {
    * @param {string} accountId Account ID as retrieved from the .list() function.
    */
   async _switchAccounts(accountId) {
+    if (accountId === undefined) {
+      throw "An account ID must be specified."
+    }
+
     if (accountId !== this.currentAccount) {
       const options = {
         headers: {
@@ -94,6 +98,10 @@ module.exports = {
    * @returns Aggregate valuation information for an account.
    */
   async valuations(accountId) {
+    if (accountId === undefined) {
+      throw "An account ID must be specified."
+    }
+
     await this._switchAccounts(accountId);
     const options = {
       headers: {
@@ -118,6 +126,9 @@ module.exports = {
    * @returns List of transactions for the supplied account ID.
    */
   async transactions(accountId) {
+    if (accountId === undefined) {
+      throw "An account ID must be specified."
+    }
     await this._switchAccounts(accountId);
     const options = {
       headers: {
@@ -142,6 +153,9 @@ module.exports = {
    * @returns List of holdings information hashmaps.
    */
   async holdings(accountId) {
+    if (accountId === undefined) {
+      throw "An account ID must be specified."
+    }
     await this._switchAccounts(accountId);
     const options = {
       headers: {
