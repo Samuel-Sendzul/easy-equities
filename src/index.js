@@ -1,8 +1,9 @@
-// @create-index
+var auth = require("./auth");
+var accounts = require("./accounts");
+var instruments = require("./instruments");
 
-export { default as accounts } from './accounts.js';
-export { default as auth } from './auth.js';
-export { default as axiosConfig } from './axiosConfig.js';
-export { default as constants } from './constants.js';
-export { default as instruments } from './instruments.js';
-
+module.exports = {
+  auth,
+  accounts,
+  instruments,
+};
