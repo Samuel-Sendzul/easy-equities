@@ -116,7 +116,36 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Include examples of how to login and make calls.
+Here is an example of how to fetch all investment accounts associated with an Easy Equities account:
+
+```javascript
+  easyequities = require("easy-equities");
+
+  username = process.env.username;
+  password = process.env.password;
+
+  const main = async function() {
+    let loggedIn = false
+    try {
+      loggedIn = await easyequities.auth.login(username, password)
+    } catch (error) {
+      console.log(`An error was caught: ${error}`)
+    }
+    if (loggedIn) {
+      try {
+        const accounts = await easyequities.accounts.list()
+        for (let i = 0; i < accounts.length; i++) {
+          console.log(accounts[i])
+        }
+      } catch (error) {
+        console.log(`An error was caught: ${error}`)
+      }
+    }
+  }
+
+  main().then()
+
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
