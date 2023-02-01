@@ -1,22 +1,6 @@
 <div id="top"></div>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
 
 
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -115,7 +99,7 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Set up an account on Easy Equities and save your username and password.
+1. Set up an account on [Easy Equities](https://www.easyequities.co.za/) and save your username and password.
 2. Clone the repo
    ```sh
    git clone https://github.com/Samuel-Sendzul/easy-equities.git
@@ -132,9 +116,7 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+Include examples of how to login and make calls.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -143,12 +125,12 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Programmatic access to trades
+  - [ ] Market orders
+  - [ ] Limit orders
+- [ ] Handle the session token returned from Easy Equities in a way that aligns with API standards.
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/Samuel-Sendzul/easy-equities/repo_name/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -184,9 +166,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Samuel Sendzul - [@samuel_sendzul](https://twitter.com/samuel_sendzul) - samuel.sendzul@gmail.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/Samuel-Sendzul/easy-equities](https://github.com/Samuel-Sendzul/easy-equities)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
