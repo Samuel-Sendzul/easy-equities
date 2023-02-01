@@ -32,7 +32,7 @@ module.exports = {
     response = await axiosConfig.httpClient(options);
 
     if (response.status != 302) {
-      throw "Login failed";
+      throw new Error("Login failed");
     } else {
       console.log("Logged into Easy Equities successfully.");
     }

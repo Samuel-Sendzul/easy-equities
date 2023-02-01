@@ -27,7 +27,7 @@ module.exports = {
     response = await axiosConfig.httpClient(options);
 
     if (response.status != 200) {
-      throw "Account overview page should return 200 status code";
+      throw new Error("Account overview page should return 200 status code");
     }
 
     return response.data;
@@ -66,7 +66,7 @@ module.exports = {
    */
   async _switchAccounts(accountId) {
     if (accountId === undefined) {
-      throw "An account ID must be specified."
+      throw new Error("An account ID must be specified.");
     }
 
     if (accountId !== this.currentAccount) {
@@ -99,7 +99,7 @@ module.exports = {
    */
   async valuations(accountId) {
     if (accountId === undefined) {
-      throw "An account ID must be specified."
+      throw new Error("An account ID must be specified.");
     }
 
     await this._switchAccounts(accountId);
@@ -127,7 +127,7 @@ module.exports = {
    */
   async transactions(accountId) {
     if (accountId === undefined) {
-      throw "An account ID must be specified."
+      throw new Error("An account ID must be specified.");
     }
     await this._switchAccounts(accountId);
     const options = {
@@ -154,7 +154,7 @@ module.exports = {
    */
   async holdings(accountId) {
     if (accountId === undefined) {
-      throw "An account ID must be specified."
+      throw new Error("An account ID must be specified.");
     }
     await this._switchAccounts(accountId);
     const options = {
@@ -178,7 +178,7 @@ module.exports = {
     const currentValues = $("div[class='current-value-cell']").find("span");
     const currentPrices = $("div[class='current-price-cell']").find("span");
     const contractCodes = $("img[class='instrument']");
-    const detailViewURLs = $("div[class='collapse-container']").find('span')
+    const detailViewURLs = $("div[class='collapse-container']").find("span");
 
     let holdings = [];
     for (let i = 0; i < instruments.length; i++) {
@@ -191,9 +191,8 @@ module.exports = {
         .slice(contractCodeFirstIndex, contractCodeLastIndex)
         .trim();
 
-
       // Get share count values
-      const detailViewURL = `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${detailViewURLs[i].attribs['data-detailviewurl']}`
+      const detailViewURL = `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${detailViewURLs[i].attribs["data-detailviewurl"]}`;
       const options = {
         headers: {
           Accept:
@@ -208,9 +207,13 @@ module.exports = {
       response = await axiosConfig.httpClient(options);
       const $ = cheerio.load(response.data, { ignoreWhitespace: true });
 
-      const numWholeShares = $("div[class='col-xs-4 text-align-right bold-heavy']")[0].children[0].data.trim()
-      const numFracShares = $("div[class='col-xs-4 text-align-right bold-heavy']")[1].children[0].data.trim()
-      const numShares = parseFloat(numWholeShares + numFracShares)
+      const numWholeShares = $(
+        "div[class='col-xs-4 text-align-right bold-heavy']"
+      )[0].children[0].data.trim();
+      const numFracShares = $(
+        "div[class='col-xs-4 text-align-right bold-heavy']"
+      )[1].children[0].data.trim();
+      const numShares = parseFloat(numWholeShares + numFracShares);
 
       holdings.push({
         instrument: instruments[i].children[0].data.trim(),
@@ -219,18 +222,21 @@ module.exports = {
           purchaseValues[i].children[0].data
             .trim()
             .replace("R", "")
+            .replace(",", "")
             .replace(" ", "")
         ),
         currentValue: parseFloat(
           currentValues[i].children[0].data
             .trim()
             .replace("R", "")
+            .replace(",", "")
             .replace(" ", "")
         ),
         currentPrice: parseFloat(
           currentPrices[i].children[0].data
             .trim()
             .replace("R", "")
+            .replace(",", "")
             .replace(" ", "")
         ),
         contractCode: contractCode,

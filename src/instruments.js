@@ -24,7 +24,7 @@ module.exports = {
     response = await axiosConfig.httpClient(options);
 
     if (response.status != 200) {
-      throw "Chart data request should return 200 status code";
+      throw new Error("Chart data request should return 200 status code");
     }
 
     return response.data.chartData;
