@@ -164,9 +164,11 @@ module.exports = {
     const currentValues = $("div[class='current-value-cell']").find("span");
     const currentPrices = $("div[class='current-price-cell']").find("span");
     const contractCodes = $("img[class='instrument']");
+    const detailViewURLs = $("div[class='collapse-container']").find('span')
 
     let holdings = [];
     for (let i = 0; i < instruments.length; i++) {
+      // Retrieve contract code
       const contractCodeFirstIndex =
         contractCodes[i].attribs.src.lastIndexOf("/") + 1;
       const contractCodeLastIndex =
@@ -175,8 +177,30 @@ module.exports = {
         .slice(contractCodeFirstIndex, contractCodeLastIndex)
         .trim();
 
+
+      // Get share count values
+      const detailViewURL = `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${detailViewURLs[i].attribs['data-detailviewurl']}`
+      const options = {
+        headers: {
+          Accept:
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+          "Connection-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded",
+          cookie: auth.cookieJar.EECookies,
+        },
+        method: "GET",
+        url: detailViewURL,
+      };
+      response = await axiosConfig.httpClient(options);
+      const $ = cheerio.load(response.data, { ignoreWhitespace: true });
+
+      const numWholeShares = $("div[class='col-xs-4 text-align-right bold-heavy']")[0].children[0].data.trim()
+      const numFracShares = $("div[class='col-xs-4 text-align-right bold-heavy']")[1].children[0].data.trim()
+      const numShares = parseFloat(numWholeShares + numFracShares)
+
       holdings.push({
         instrument: instruments[i].children[0].data.trim(),
+        shares: numShares,
         purchaseValue: parseFloat(
           purchaseValues[i].children[0].data
             .trim()
