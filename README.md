@@ -125,9 +125,6 @@ Include examples of how to login and make calls.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Programmatic access to trades
-  - [ ] Market orders
-  - [ ] Limit orders
 - [ ] Handle the session token returned from Easy Equities in a way that aligns with API standards.
 
 See the [open issues](https://github.com/Samuel-Sendzul/easy-equities/repo_name/issues) for a full list of proposed features (and known issues).

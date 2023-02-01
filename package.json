@@ -2,7 +2,7 @@
   "name": "easy-equities",
   "version": "1.0.0",
   "description": "NodeJS client for programmatically accessing an Easy Equities account.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,8 +11,7 @@
     "url": "git+https://github.com/Samuel-Sendzul/easy-equities.git"
   },
   "keywords": [
-    "easy",
-    "equities",
+    "easy equities",
     "investing"
   ],
   "author": "Samuel Sendzul",
