@@ -12,7 +12,7 @@ module.exports = {
    * requests in the session.
    * @param {string} username Username used to login to an EasyEquities account.
    * @param {string} password Password used to login to an EasyEquities account.
-   * @returns
+   * @returns {string} The token required by EasyEquities to authenticate a session.
    */
   async login(username, password) {
     const options = {
