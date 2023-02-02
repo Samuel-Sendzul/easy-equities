@@ -10,8 +10,8 @@ module.exports = {
   /**
    * Login to EasyEquities. When the correct username and password is supplied. EasyEquities returns a token in the response header. This can be used for further
    * requests in the session.
-   * @param {string} username Username used to log into an account.
-   * @param {string} password Password used to log into an account.
+   * @param {string} username Username used to login to an EasyEquities account.
+   * @param {string} password Password used to login to an EasyEquities account.
    * @returns
    */
   async login(username, password) {
@@ -39,6 +39,6 @@ module.exports = {
 
     this.cookieJar.EECookies = response.headers["set-cookie"];
 
-    return true;
+    return response.headers["set-cookie"][1].split(";")[0].split("=")[1];
   },
 };

@@ -4,7 +4,7 @@
   "description": "NodeJS client for programmatically accessing an Easy Equities account.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Samuel-Sendzul/easy-equities#readme",
   "dependencies": {
     "axios": "^1.2.6",
-    "cheerio": "^1.0.0-rc.12"
+    "cheerio": "^1.0.0-rc.12",
+    "jest": "^29.4.1"
   }
 }
