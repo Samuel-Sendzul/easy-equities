@@ -68,7 +68,6 @@ module.exports = {
     if (accountId === undefined) {
       throw new Error("An account ID must be specified.");
     }
-
     if (accountId !== this.currentAccount) {
       const options = {
         headers: {
@@ -86,18 +85,21 @@ module.exports = {
       };
       response = await axiosConfig.httpClient(options);
       if (response.status !== 200) {
-        throw "Update currency request should return 200 status code.";
+        throw new Error(
+          "Update currency request should return 200 status code."
+        );
       }
       this.currentAccount = accountId;
     }
   },
 
   /**
-   * Fetch all aggregate valuation data relating to an account.
+   * Fetch a top level summary for an account on Easy Equities.
    * @param {string} accountId Account ID as retrieved from the .list() function.
-   * @returns Aggregate valuation information for an account.
+   * @returns Top level account information for an Easy Equities account. This includes Account Name,
+   * Account Number, Account Value, Account Currency.
    */
-  async valuations(accountId) {
+  async topSummary(accountId) {
     if (accountId === undefined) {
       throw new Error("An account ID must be specified.");
     }
@@ -115,10 +117,17 @@ module.exports = {
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_ACCOUNT_VALUATIONS_PATH}`,
     };
     response = await axiosConfig.httpClient(options);
-
+    console.log(response.data);
     const valuations = JSON.parse(response.data);
 
-    return valuations;
+    const topSummary = {
+      accountNumber: valuations["TopSummary"]["AccountNumber"],
+      accountName: valuations["TopSummary"]["AccountName"],
+      accountValue: valuations["TopSummary"]["AccountValue"],
+      accountCurrency: valuations["TopSummary"]["AccountCurrency"],
+    };
+
+    return topSummary;
   },
   /**
    * Fetch all transactions for a given account ID.
@@ -143,8 +152,18 @@ module.exports = {
     };
     response = await axiosConfig.httpClient(options);
 
-    const transactions = response.data;
-
+    const rawTransactions = response.data
+    let transactions = []
+    rawTransactions.forEach((transaction) => {
+      transactions.push({
+        action: transaction.Action,
+        comment: transaction.Comment,
+        contractCode: transaction.ContractCode,
+        debitCredit: transaction.DebitCredit,
+        transactionDate: transaction.TransactionDate,
+        transactionId: transaction.TransactionId
+      })
+    })
     return transactions;
   },
   /**
