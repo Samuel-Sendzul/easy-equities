@@ -34,7 +34,7 @@ module.exports = {
     if (response.status != 302) {
       throw new Error("Login failed");
     } else {
-      console.log("Logged into Easy Equities successfully.");
+      console.log(`${username} logged in successfully`);
     }
 
     this.cookieJar.EECookies = response.headers["set-cookie"];

@@ -86,7 +86,7 @@ module.exports = {
       response = await axiosConfig.httpClient(options);
       if (response.status !== 200) {
         throw new Error(
-          "Update currency request should return 200 status code."
+          "Change account request should return 200 status code."
         );
       }
       this.currentAccount = accountId;
@@ -117,16 +117,22 @@ module.exports = {
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_ACCOUNT_VALUATIONS_PATH}`,
     };
     response = await axiosConfig.httpClient(options);
-    const valuations = JSON.parse(response.data);
+    try {
+      const valuations = JSON.parse(response.data);
 
-    const topSummary = {
-      accountNumber: valuations["TopSummary"]["AccountNumber"],
-      accountName: valuations["TopSummary"]["AccountName"],
-      accountValue: valuations["TopSummary"]["AccountValue"],
-      accountCurrency: valuations["TopSummary"]["AccountCurrency"],
-    };
+      const topSummary = {
+        accountNumber: valuations["TopSummary"]["AccountNumber"],
+        accountName: valuations["TopSummary"]["AccountName"],
+        accountValue: valuations["TopSummary"]["AccountValue"],
+        accountCurrency: valuations["TopSummary"]["AccountCurrency"],
+      };
 
-    return topSummary;
+      return topSummary;
+    } catch (error) {
+      throw new Error(
+        "No Easy Equities accounts found. Check authorisation token is fresh or get one using the login mutation."
+      );
+    }
   },
   /**
    * Fetch all transactions for a given account ID.
@@ -151,8 +157,13 @@ module.exports = {
     };
     response = await axiosConfig.httpClient(options);
 
-    const rawTransactions = response.data
-    let transactions = []
+    const rawTransactions = response.data;
+    
+    if (!Array.isArray(rawTransactions)) {
+      throw new Error("Authentication failed.")
+    }
+
+    let transactions = [];
     for (let transaction of rawTransactions) {
       transactions.push({
         action: transaction.Action,
@@ -160,8 +171,8 @@ module.exports = {
         contractCode: transaction.ContractCode,
         debitCredit: transaction.DebitCredit,
         transactionDate: transaction.TransactionDate,
-        transactionId: transaction.TransactionId
-      })
+        transactionId: transaction.TransactionId,
+      });
     }
     return transactions;
   },
@@ -195,22 +206,24 @@ module.exports = {
     const purchaseValues = $("div[class='purchase-value-cell']").find("span");
     const currentValues = $("div[class='current-value-cell']").find("span");
     const currentPrices = $("div[class='current-price-cell']").find("span");
-    const contractCodes = $("img[class='instrument']");
+    const contractCodesRaw = $("img[class='instrument']");
     const detailViewURLs = $("div[class='collapse-container']").find("span");
 
-    let holdings = [];
-    for (let i = 0; i < instruments.length; i++) {
-      // Retrieve contract code
-      const contractCodeFirstIndex =
-        contractCodes[i].attribs.src.lastIndexOf("/") + 1;
-      const contractCodeLastIndex =
-        contractCodes[i].attribs.src.indexOf(".png");
-      const contractCode = contractCodes[i].attribs.src
+    // Retrieve contact code
+    let contractCodes = [];
+    for (let code of contractCodesRaw) {
+      const contractCodeFirstIndex = code.attribs.src.lastIndexOf("/") + 1;
+      const contractCodeLastIndex = code.attribs.src.indexOf(".png");
+      const contractCode = code.attribs.src
         .slice(contractCodeFirstIndex, contractCodeLastIndex)
         .trim();
+      contractCodes.push(contractCode);
+    }
 
-      // Get share count values
-      const detailViewURL = `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${detailViewURLs[i].attribs["data-detailviewurl"]}`;
+    // Get share count values
+    let requests = [];
+    for (let detailedViewURL of detailViewURLs) {
+      const detailViewURL = `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${detailedViewURL.attribs["data-detailviewurl"]}`;
       const options = {
         headers: {
           Accept:
@@ -222,7 +235,12 @@ module.exports = {
         method: "GET",
         url: detailViewURL,
       };
-      response = await axiosConfig.httpClient(options);
+      requests.push(axiosConfig.httpClient(options));
+    }
+    const responses = await Promise.all(requests);
+
+    let shareValues = [];
+    for (let response of responses) {
       const $ = cheerio.load(response.data, { ignoreWhitespace: true });
 
       const numWholeShares = $(
@@ -232,10 +250,15 @@ module.exports = {
         "div[class='col-xs-4 text-align-right bold-heavy']"
       )[1].children[0].data.trim();
       const numShares = parseFloat(numWholeShares + numFracShares);
+      shareValues.push(numShares);
+    }
 
+    // Compile holdings
+    let holdings = [];
+    for (let i = 0; i < instruments.length; i++) {
       holdings.push({
         instrument: instruments[i].children[0].data.trim(),
-        shares: numShares,
+        shares: shareValues[i],
         purchaseValue: parseFloat(
           purchaseValues[i].children[0].data
             .trim()
@@ -257,7 +280,7 @@ module.exports = {
             .replace(",", "")
             .replace(" ", "")
         ),
-        contractCode: contractCode,
+        contractCode: contractCodes[i],
       });
     }
 

@@ -27,6 +27,13 @@ module.exports = {
       throw new Error("Chart data request should return 200 status code");
     }
 
-    return response.data.chartData;
+    const historicalPrices = {
+      dataset: response.data.chartData.Dataset,
+      labels: response.data.chartData.Labels,
+      periodReturn: response.data.chartData.PeriodReturn,
+      tradingCurrencySymbol: response.data.chartData.TradingCurrencySymbol
+    }
+
+    return historicalPrices;
   },
 };
