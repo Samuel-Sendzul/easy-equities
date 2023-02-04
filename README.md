@@ -120,6 +120,7 @@ Here is an example of how to fetch all investment accounts associated with an Ea
 
 TODO add example
 ```
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

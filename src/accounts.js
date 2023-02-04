@@ -117,7 +117,6 @@ module.exports = {
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_ACCOUNT_VALUATIONS_PATH}`,
     };
     response = await axiosConfig.httpClient(options);
-    console.log(response.data);
     const valuations = JSON.parse(response.data);
 
     const topSummary = {
@@ -154,7 +153,7 @@ module.exports = {
 
     const rawTransactions = response.data
     let transactions = []
-    rawTransactions.forEach((transaction) => {
+    for (let transaction of rawTransactions) {
       transactions.push({
         action: transaction.Action,
         comment: transaction.Comment,
@@ -163,7 +162,7 @@ module.exports = {
         transactionDate: transaction.TransactionDate,
         transactionId: transaction.TransactionId
       })
-    })
+    }
     return transactions;
   },
   /**
