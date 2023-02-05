@@ -91,11 +91,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+* Node v18.13.0
 
 ### Installation
 
@@ -118,8 +114,23 @@ This is an example of how to list things you need to use the software and how to
 
 Here is an example of how to fetch all investment accounts associated with an Easy Equities account:
 
-TODO add example
-```
+
+```javascript
+var easyequities = require('easyequities')
+
+async function getMyHoldings(username, password) {
+  // Login to EasyEquities. This will store the session token returned from EasyEquities in the auth module
+  const token = await easyequities.auth.login(username, password)
+
+  // Query holdings by account ID
+  const holdings = await easyequities.accounts.holdings()
+
+  console.log(holdings)
+
+}
+
+getMyHoldings("someUsername", "s3cr3tPassword")
+
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -129,7 +140,9 @@ TODO add example
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Handle the session token returned from Easy Equities in a way that aligns with API standards.
+- [ ] Make it possible to query accounts by name OR by account ID.
+- [ ] Add features to track the historic value of a portfolio. This should be done through wallet snapshots daily.
+- [ ] Add a feature to perform a simple backtest on a long-only portfolio strategy.
 
 See the [open issues](https://github.com/Samuel-Sendzul/easy-equities/repo_name/issues) for a full list of proposed features (and known issues).
 
@@ -170,17 +183,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 Samuel Sendzul - [@samuel_sendzul](https://twitter.com/samuel_sendzul) - samuel.sendzul@gmail.com
 
 Project Link: [https://github.com/Samuel-Sendzul/easy-equities](https://github.com/Samuel-Sendzul/easy-equities)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
