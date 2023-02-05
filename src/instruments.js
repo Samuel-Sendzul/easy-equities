@@ -27,12 +27,23 @@ module.exports = {
       throw new Error("Chart data request should return 200 status code");
     }
 
-    const historicalPrices = {
-      dataset: response.data.chartData.Dataset,
-      labels: response.data.chartData.Labels,
-      periodReturn: response.data.chartData.PeriodReturn,
-      tradingCurrencySymbol: response.data.chartData.TradingCurrencySymbol
+    if (response.data.chartData.Dataset.length === 0) {
+      throw new Error("Contract code incorrectly specified.");
     }
+
+    let priceSeries = [];
+    for (let i = 0; i < response.data.chartData.Dataset.length; i++) {
+      priceSeries.push({
+        price: response.data.chartData.Dataset[i],
+        timestamp: new Date(response.data.chartData.Labels[i]).getTime() / 1000,
+      });
+    }
+
+    const historicalPrices = {
+      priceSeries: priceSeries,
+      periodReturn: response.data.chartData.PeriodReturn,
+      tradingCurrencySymbol: response.data.chartData.TradingCurrencySymbol,
+    };
 
     return historicalPrices;
   },
