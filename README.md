@@ -17,7 +17,7 @@
     <img src="assets/logo.webp" alt="Logo" width="507" height="80">
   </a>
 
-<h3 align="center">Easy Equities JS</h3>
+<h3 align="center">EasyEquities JS</h3>
 
   <p align="center">
     A Node.js package for programatically interacting with Easy Equities. Currently, Easy Equities does not have a documented public API so a combination of scraping and calls to the Easy
