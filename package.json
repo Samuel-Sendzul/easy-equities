@@ -1,6 +1,6 @@
 {
   "name": "easy-equities",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "NodeJS client for programmatically accessing data related to an Easy Equities account.",
   "main": "src/index.js",
   "scripts": {
@@ -22,7 +22,9 @@
   "homepage": "https://github.com/Samuel-Sendzul/easy-equities#readme",
   "dependencies": {
     "axios": "^1.2.6",
-    "cheerio": "^1.0.0-rc.12",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {
     "jest": "^29.4.1"
   }
 }
