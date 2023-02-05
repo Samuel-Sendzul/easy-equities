@@ -1,4 +1,6 @@
 
+var auth = require("./auth")
+
 module.exports = {
   // URLs
   EASY_EQUITIES_BASE_PLATFORM_URL: "https://platform.easyequities.io",
@@ -11,4 +13,11 @@ module.exports = {
   PLATFORM_TRANSACTIONS_PATH : "/TransactionHistory/GetTransactions",
   PLATFORM_GET_CHART_DATA_PATH : "/Equity/GetChartDataByContractCode",
   PLATFORM_TRADE_PATH: "/ValueAllocation",
+  headers: {
+    Accept:
+      "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Connection-Type": "application/x-www-form-urlencoded",
+    "Content-Type": "application/x-www-form-urlencoded",
+    cookie: auth.cookieJar.EECookies,
+  }
 }

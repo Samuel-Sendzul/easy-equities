@@ -14,13 +14,7 @@ module.exports = {
    */
   async _getAccountOverviewPage() {
     const options = {
-      headers: {
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Connection-Type": "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-        cookie: auth.cookieJar.EECookies,
-      },
+      headers: constants.headers,
       method: "GET",
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_ACCOUNT_OVERVIEW_PATH}`,
     };
@@ -70,13 +64,7 @@ module.exports = {
     }
     if (accountId !== this.currentAccount) {
       const options = {
-        headers: {
-          Accept:
-            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Connection-Type": "application/x-www-form-urlencoded",
-          "Content-Type": "application/x-www-form-urlencoded",
-          cookie: auth.cookieJar.EECookies,
-        },
+        headers: constants.headers,
         data: {
           trustAccountId: accountId,
         },
@@ -106,13 +94,7 @@ module.exports = {
 
     await this._switchAccounts(accountId);
     const options = {
-      headers: {
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Connection-Type": "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-        cookie: auth.cookieJar.EECookies,
-      },
+      headers: constants.headers,
       method: "GET",
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_ACCOUNT_VALUATIONS_PATH}`,
     };
@@ -145,13 +127,7 @@ module.exports = {
     }
     await this._switchAccounts(accountId);
     const options = {
-      headers: {
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Connection-Type": "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-        cookie: auth.cookieJar.EECookies,
-      },
+      headers: constants.headers,
       method: "GET",
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_TRANSACTIONS_PATH}`,
     };
@@ -187,13 +163,7 @@ module.exports = {
     }
     await this._switchAccounts(accountId);
     const options = {
-      headers: {
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Connection-Type": "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-        cookie: auth.cookieJar.EECookies,
-      },
+      headers: constants.headers,
       method: "GET",
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_HOLDINGS_PATH}`,
     };
@@ -225,13 +195,7 @@ module.exports = {
     for (let detailedViewURL of detailViewURLs) {
       const detailViewURL = `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${detailedViewURL.attribs["data-detailviewurl"]}`;
       const options = {
-        headers: {
-          Accept:
-            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Connection-Type": "application/x-www-form-urlencoded",
-          "Content-Type": "application/x-www-form-urlencoded",
-          cookie: auth.cookieJar.EECookies,
-        },
+        headers: constants.headers,
         method: "GET",
         url: detailViewURL,
       };
