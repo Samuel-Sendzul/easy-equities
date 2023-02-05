@@ -13,6 +13,7 @@ module.exports = {
    * @returns {string} Raw HTML Accounts Overview page.
    */
   async _getAccountOverviewPage() {
+    constants.headers.cookie = auth.cookieJar.EECookies
     const options = {
       headers: constants.headers,
       method: "GET",
@@ -63,6 +64,7 @@ module.exports = {
       throw new Error("An account ID must be specified.");
     }
     if (accountId !== this.currentAccount) {
+      constants.headers.cookie = auth.cookieJar.EECookies
       const options = {
         headers: constants.headers,
         data: {
@@ -93,6 +95,7 @@ module.exports = {
     }
 
     await this._switchAccounts(accountId);
+    constants.headers.cookie = auth.cookieJar.EECookies
     const options = {
       headers: constants.headers,
       method: "GET",
@@ -126,6 +129,7 @@ module.exports = {
       throw new Error("An account ID must be specified.");
     }
     await this._switchAccounts(accountId);
+    constants.headers.cookie = auth.cookieJar.EECookies
     const options = {
       headers: constants.headers,
       method: "GET",
@@ -162,6 +166,7 @@ module.exports = {
       throw new Error("An account ID must be specified.");
     }
     await this._switchAccounts(accountId);
+    constants.headers.cookie = auth.cookieJar.EECookies
     const options = {
       headers: constants.headers,
       method: "GET",

@@ -1,6 +1,6 @@
 var constants = require("./constants");
 var axiosConfig = require("./axiosConfig");
-var auth = require("./auth");
+var auth = require("./auth")
 
 module.exports = {
   /**
@@ -10,14 +10,9 @@ module.exports = {
    * @returns A struct containing the daily price series and aggregate return information for the period.
    */
   async historicalPrices(contractCode, period) {
+    constants.headers.cookie = auth.cookieJar.EECookies
     const options = {
-      headers: {
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Connection-Type": "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-        cookie: auth.cookieJar.EECookies,
-      },
+      headers: constants.headers,
       method: "GET",
       url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_GET_CHART_DATA_PATH}?code=${contractCode}&period=${period}`,
     };
