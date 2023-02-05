@@ -68,6 +68,8 @@
 
 [Easy Equities](https://www.easyequities.co.za/) is a low-cost investment platform available in South Africa. Many beginner and experienced investors use the platform because of its simple interface and low barrier to begin investing. However, Easy Equities has not made a documented API available to the public to access account data programatically. This Node.js implements a combination of web scraping and calls to the Easy Equities backend to enable developers to access their account data programatically.
 
+With this package, you can implement automated balance checking, portfolio tracking, custom notification, backtesting, etc. Eventually many of these features will form part of the package but currently, the functionality exists for you to create these features on your own.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
