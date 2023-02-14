@@ -1,7 +1,7 @@
 {
   "name": "easy-equities",
   "version": "0.0.2",
-  "description": "NodeJS client for programmatically accessing data related to an Easy Equities account.",
+  "description": "Node.js package for programmatically accessing data related to an Easy Equities account.",
   "main": "src/index.js",
   "scripts": {
     "test": ""
