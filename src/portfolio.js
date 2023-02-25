@@ -23,28 +23,34 @@ module.exports = {
     );
 
     // Get current prices of relevant instruments
-    let priceRequests = [];
-    for (const contractCode in portfolioWeights) {
-      priceRequests.push(instruments.currentPrice(contractCode));
-    }
-    const currentPrices = await Promise.all(priceRequests);
-
-    // Determine desired portfolio holdings
-    const desiredHoldings = {};
-    for (const priceObject of currentPrices) {
-      desiredHoldings[priceObject.contractCode] =
-        Math.round(
-          ((portfolioWeights[priceObject.contractCode] *
-            currentPortfolioValue) /
-            priceObject.currentPrice) *
-            10000
-        ) / 10000;
-    }
-
-    // Calculate holdings differences between desired and current
     currentHoldings = {};
     for (holding of holdings) {
       currentHoldings[holding.contractCode] = holding.shares;
+    }
+
+    let priceRequests = [];
+    const currentContracts = new Set(Object.keys(currentHoldings))
+    const desiredContracts = new Set(Object.keys(portfolioWeights))
+    const allContracts = Array.from(currentContracts || desiredContracts)
+    for (const contractCode of allContracts) {
+      priceRequests.push(instruments.currentPrice(contractCode));
+    }
+    const currentPricesRaw = await Promise.all(priceRequests);
+    // Unpack prices
+    let currentPrices = {};
+    for (price of currentPricesRaw) {
+      currentPrices[price.contractCode] = price.currentPrice;
+    }
+
+    // Determine desired portfolio holdings
+    const desiredHoldings = {};
+    for (const contractCode in portfolioWeights) {
+      desiredHoldings[contractCode] =
+        Math.round(
+          ((portfolioWeights[contractCode] * currentPortfolioValue) /
+            currentPrices[contractCode]) *
+            10000
+        ) / 10000;
     }
 
     const holdingsDifferences = {};
@@ -88,6 +94,12 @@ module.exports = {
         side: holdingsDifferences[contract] > 0 ? "BUY" : "SELL",
         amount:
           Math.round(Math.abs(holdingsDifferences[contract]) * 1000) / 1000,
+        estimatedOrderValue:
+          Math.round(
+            Math.abs(holdingsDifferences[contract]) *
+              currentPrices[contract] *
+              100
+          ) / 100,
       });
     }
 
