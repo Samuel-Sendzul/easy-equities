@@ -3,10 +3,11 @@ var instruments = require("./instruments");
 
 module.exports = {
   /**
-   * 
-   * @param {string} accountId 
-   * @param {object} portfolioWeights 
-   * @returns 
+   * Determine what orders need to be placed to achieved a portfolio weighting scheme defined in portfolioWeights.
+   * @param {string} accountId EasyEquities account ID.
+   * @param {object} portfolioWeights Key-value object containing the desired contract codes as keys and the weighting (in decimal form) of that contract code in the
+   *                                  portfolio.
+   * @returns A list of rebalancing orders that can be executed on EasyEquities.
    */
   async rebalancingOrders(accountId, portfolioWeights) {
     // Fetch current holdings
@@ -21,7 +22,6 @@ module.exports = {
       holdings
     );
 
-    
     // Get current prices of relevant instruments
     let priceRequests = [];
     for (const contractCode in portfolioWeights) {
@@ -94,10 +94,11 @@ module.exports = {
     return orders;
   },
   /**
-   * 
-   * @param {number} availableToInvest 
-   * @param {Array} holdings 
-   * @returns 
+   * Calculate the value of a portfolio given current holdings and the amount available to invest in the Easy
+   * Equities account that holdings comes from.
+   * @param {number} availableToInvest Total funds available to invest.
+   * @param {Array} holdings Holdings information retrieved from accounts.holdings().
+   * @returns The current value of the portfolio in the currency that the EasyEquities account is denominated in.
    */
   calculatePortfolioValue(availableToInvest, holdings) {
     let currentValue = availableToInvest;
@@ -109,9 +110,10 @@ module.exports = {
     return Math.round(currentValue * 100) / 100;
   },
   /**
-   * 
-   * @param {string} accountId 
-   * @returns 
+   * Calculate the portfolio weights of the current portfolio in the EasyEquities account represented by accountId.
+   * @param {string} accountId EasyEquities account ID.
+   * @returns Key-value object with the keys being the contract codes of the instruments in the EasyEquities account
+   *          and the values being the current portfolio weights (in decimal form).
    */
   async currentPortfolioWeights(accountId) {
     const [holdings, fundsSummary] = await Promise.all([
