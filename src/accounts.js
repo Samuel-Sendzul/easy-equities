@@ -13,7 +13,7 @@ module.exports = {
    * @returns {string} Raw HTML Accounts Overview page.
    */
   async _getAccountOverviewPage() {
-    constants.headers.cookie = auth.cookieJar.EECookies
+    constants.headers.cookie = auth.cookieJar.EECookies;
     const options = {
       headers: constants.headers,
       method: "GET",
@@ -64,7 +64,7 @@ module.exports = {
       throw new Error("An account ID must be specified.");
     }
     if (accountId !== this.currentAccount) {
-      constants.headers.cookie = auth.cookieJar.EECookies
+      constants.headers.cookie = auth.cookieJar.EECookies;
       const options = {
         headers: constants.headers,
         data: {
@@ -82,7 +82,72 @@ module.exports = {
       this.currentAccount = accountId;
     }
   },
+  /**
+   * Fetch the funds summary for an account on Easy Equities.
+   * @param {string} accountId Account ID as retrieved from the .list() function.
+   * @returns Funds summary information for an Easy Equities account. This includes funds available to invest, withdrawable funds, unsettled cash, and locked funds.
+   */
+  async fundsSummary(accountId) {
+    if (accountId === undefined) {
+      throw new Error("An account ID must be specified.");
+    }
 
+    await this._switchAccounts(accountId);
+    constants.headers.cookie = auth.cookieJar.EECookies;
+    const options = {
+      headers: constants.headers,
+      method: "GET",
+      url: `${constants.EASY_EQUITIES_BASE_PLATFORM_URL}${constants.PLATFORM_ACCOUNT_VALUATIONS_PATH}`,
+    };
+    response = await axiosConfig.httpClient(options);
+    try {
+      const valuations = JSON.parse(response.data);
+      let fundsSummary = {};
+
+      for (let summary of valuations["FundSummaryItems"]) {
+        switch (summary["Label"]) {
+          case "Your Funds to Invest":
+            fundsSummary["availableToInvest"] = parseFloat(
+              summary["Value"]
+                .trim()
+                .replace("R", "")
+                .replace(",", "")
+                .replace(" ", "")
+            );
+          case "Withdrawable Funds":
+            fundsSummary["withdrawableFunds"] = parseFloat(
+              summary["Value"]
+                .trim()
+                .replace("R", "")
+                .replace(",", "")
+                .replace(" ", "")
+            );
+          case "Unsettled Cash":
+            fundsSummary["unsettledCash"] = parseFloat(
+              summary["Value"]
+                .trim()
+                .replace("R", "")
+                .replace(",", "")
+                .replace(" ", "")
+            );
+          case "Locked Funds":
+            fundsSummary["lockedFunds"] = parseFloat(
+              summary["Value"]
+                .trim()
+                .replace("R", "")
+                .replace(",", "")
+                .replace(" ", "")
+            );
+        }
+      }
+
+      return fundsSummary;
+    } catch (error) {
+      throw new Error(
+        "No Easy Equities accounts found. Check authorisation token is fresh or get one using the login mutation."
+      );
+    }
+  },
   /**
    * Fetch a top level summary for an account on Easy Equities.
    * @param {string} accountId Account ID as retrieved from the .list() function.
@@ -95,7 +160,7 @@ module.exports = {
     }
 
     await this._switchAccounts(accountId);
-    constants.headers.cookie = auth.cookieJar.EECookies
+    constants.headers.cookie = auth.cookieJar.EECookies;
     const options = {
       headers: constants.headers,
       method: "GET",
@@ -129,7 +194,7 @@ module.exports = {
       throw new Error("An account ID must be specified.");
     }
     await this._switchAccounts(accountId);
-    constants.headers.cookie = auth.cookieJar.EECookies
+    constants.headers.cookie = auth.cookieJar.EECookies;
     const options = {
       headers: constants.headers,
       method: "GET",
@@ -138,9 +203,9 @@ module.exports = {
     response = await axiosConfig.httpClient(options);
 
     const rawTransactions = response.data;
-    
+
     if (!Array.isArray(rawTransactions)) {
-      throw new Error("Authentication failed.")
+      throw new Error("Authentication failed.");
     }
 
     let transactions = [];
@@ -166,7 +231,7 @@ module.exports = {
       throw new Error("An account ID must be specified.");
     }
     await this._switchAccounts(accountId);
-    constants.headers.cookie = auth.cookieJar.EECookies
+    constants.headers.cookie = auth.cookieJar.EECookies;
     const options = {
       headers: constants.headers,
       method: "GET",
