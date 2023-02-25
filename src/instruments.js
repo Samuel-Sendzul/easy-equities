@@ -38,8 +38,25 @@ module.exports = {
       priceSeries: priceSeries,
       periodReturn: response.data.chartData.PeriodReturn,
       tradingCurrencySymbol: response.data.chartData.TradingCurrencySymbol,
+      contractCode: contractCode
     };
 
     return historicalPrices;
   },
+  /**
+   * Retrieves the current price of the requested contract code.
+   * @param {string} contractCode Contract code of the intrument, e.g. EQU.ZA.SYGJP
+   * @returns An object containing the current price and contract code.
+   */
+  async currentPrice(contractCode) {
+    const historicalPriceOneMonth = await this.historicalPrices(
+      contractCode,
+      "OneMonth"
+    );
+    const currentPrice = historicalPriceOneMonth.priceSeries.slice(-1)[0].price
+    return {
+      currentPrice: currentPrice,
+      contractCode: contractCode
+    }
+  }
 };
