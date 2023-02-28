@@ -62,7 +62,7 @@ module.exports = {
     if (commonHoldings.length > 0) {
       for (const holding of commonHoldings) {
         holdingsDifferences[holding] =
-          desiredHoldings[holding] - currentHoldings[holding];
+          Math.round((desiredHoldings[holding] - currentHoldings[holding]) * 10000) / 10000;
       }
     }
 
