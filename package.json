@@ -1,0 +1,30 @@
+{
+  "name": "easy-equities",
+  "version": "0.0.2",
+  "description": "Node.js package for programmatically accessing data related to an Easy Equities account.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samuel-Sendzul/easy-equities.git"
+  },
+  "keywords": [
+    "easy equities",
+    "investing"
+  ],
+  "author": "Samuel Sendzul",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Samuel-Sendzul/easy-equities/issues"
+  },
+  "homepage": "https://github.com/Samuel-Sendzul/easy-equities#readme",
+  "dependencies": {
+    "axios": "^1.2.6",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {
+    "jest": "^29.4.1"
+  }
+}
